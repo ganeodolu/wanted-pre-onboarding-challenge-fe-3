@@ -1,20 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import useRouter from '../hooks/useRouter';
+import {RouterContext} from '../lib/Router';
 
 interface Props {
-  
+
 }
 
 const Root = (props: Props) => {
+  const { newPath } = useContext(RouterContext);
   console.log(history);
-  const router = useRouter();
-  console.log(router);
+  const { push } = useRouter();
+  const handleButton = () => {
+    newPath('/about');
+    push({}, '', '/about')
+  }
 
   return (
-    <div>
-      root
-      <button onClick={() => history.pushState({}, '', '/about')}>about</button>
-    </div>
+    <>
+      <div>
+        root
+      </div>
+      <div>
+        <button onClick={handleButton}>about</button>
+      </div>
+    </>
   )
 }
 
