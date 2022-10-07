@@ -11,7 +11,7 @@ const Route = (props: Props) => {
   const { path, element } = props;
 
   return (
-    <div>
+    <div className='route-container'>
       {path === contextPath && element}
     </div>
   )
