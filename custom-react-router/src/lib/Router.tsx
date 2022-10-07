@@ -1,4 +1,5 @@
-import React, { useState, createContext, FunctionComponent, PropsWithChildren, ReactElement, ReactNode, useEffect} from 'react'
+import React, { useState, createContext, useContext,  FunctionComponent, PropsWithChildren, ReactElement, ReactNode, useEffect} from 'react'
+import useRouter from '../hooks/useRouter';
 
 // declare function Router(
 //   props: RouterProps
@@ -23,24 +24,20 @@ export const RouterContext = createContext<Context>({path: '/', newPath: () => {
 
 const Router: FunctionComponent<PropsWithChildren> = ({children}) => {
   const [ path, setPath ] = useState(window.location.pathname);
-
+  const { pathname } = useRouter();
+  // const { newPath } = useContext(RouterContext);
   const contextValue = {
     path,
     newPath: (text: string) => setPath(text)
   }
 
-  // const RouterContext = createContext(contextValue);
-
-
-
+  const handlePopState = (e: PopStateEvent) => {
+    contextValue.newPath(e.state.path ?? '/')
+  }
   useEffect(() => {
-    window.addEventListener('popstate', (e) => {
-      console.log("location: " + document.location + ", state: " + JSON.stringify(e.state));
-    })
+    window.addEventListener('popstate', handlePopState)
     return () => {
-      window.removeEventListener('popstate', () => {
-
-      })
+      window.removeEventListener('popstate', handlePopState)
     }
   }, [])
 

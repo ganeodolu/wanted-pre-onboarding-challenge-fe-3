@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import useRouter from '../hooks/useRouter';
-import {RouterContext} from '../lib/Router';
+import { RouterContext } from '../lib/Router';
 
 interface Props {
 
@@ -12,7 +12,7 @@ const Root = (props: Props) => {
   const { push } = useRouter();
   const handleButton = () => {
     newPath('/about');
-    push({}, '', '/about')
+    push({path: '/about'}, '', '/about')
   }
 
   return (
