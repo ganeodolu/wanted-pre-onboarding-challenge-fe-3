@@ -1,10 +1,6 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
-interface Props {
-  
-}
-
-const useRouter = (props: Props) => {
+const useRouter = () => {
   return useMemo(() => {
     return {
       push: history.pushState,

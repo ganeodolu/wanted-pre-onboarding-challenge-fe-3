@@ -1,5 +1,4 @@
-import React, { useEffect, ReactNode, useContext } from 'react'
-import useRouter from '../hooks/useRouter';
+import React, { ReactNode, useContext } from 'react';
 import { RouterContext } from './Router';
 
 interface Props {
@@ -8,8 +7,7 @@ interface Props {
 }
 
 const Route = (props: Props) => {
-  const { path: contextPath, newPath } = useContext(RouterContext);
-  const { pathname } = useRouter();
+  const { path: contextPath } = useContext(RouterContext);
   const { path, element } = props;
 
   return (
