@@ -21,6 +21,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
 
 # https://<USERNAME>.github.io/<REPO> 에 배포
-git push -f git@github.com:ganeodolu/custom-react-router.git main:gh-pages
+git push -f git@github.com:ganeodolu/wanted-pre-onboarding-challenge-fe-3/custom-react-router.git main:gh-pages
 
 cd -
