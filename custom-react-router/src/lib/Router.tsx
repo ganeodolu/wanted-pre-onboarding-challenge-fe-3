@@ -17,6 +17,7 @@ const Router: FunctionComponent<PropsWithChildren> = ({children}) => {
   const handlePopState = (e: PopStateEvent) => {
     contextValue.newPath(e.state.path ?? '/')
   }
+  
   useEffect(() => {
     window.addEventListener('popstate', handlePopState)
     return () => {
