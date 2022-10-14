@@ -4,35 +4,49 @@ import Link from 'next/link'
 import Date from '../components/date-formatter'
 import { getSortedPostsData } from '../lib/posts'
 import styles from '../styles/Home.module.css'
+import useSWR, { SWRConfig } from 'swr'
 
-const Home: NextPage = ({ allPostsData }) => {
+const fetcher = (url: string) => fetch(url).then(response => response.json())
+
+const Contents = () => {
+  const { data } = useSWR('/', fetcher);
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>블로그</title>
-      </Head>
+    data.map(({ id, date, title }) => {
+      return (
+        <li key={id}>
+          <Link href='/posts/[id]' as={`/posts/${id}`}>
+            {title}
+          </Link>
+          <br />
+          {id}
+          <br />
+          <Date dateString={date}></Date>
+        </li>
+      )
+    })
+  )
+}
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-        <ul>
-          {allPostsData.map(({ id, date, title }) => {
-            return (
-              <li key={id}>
-                <Link href='/posts/[id]' as={`/posts/${id}`}>
-                  {title}
-                </Link>
-                <br />
-                {id}
-                <br />
-                <Date dateString={date}></Date>
-              </li>
-            )
-          })}
-        </ul>
-      </main>
-    </div>
+
+const Home: NextPage = ({ fallback }) => {
+
+  return (
+    <SWRConfig value={{ fallback }}>
+      <div className={styles.container}>
+        <Head>
+          <title>블로그</title>
+        </Head>
+
+        <main className={styles.main}>
+          <h1 className={styles.title}>
+            Markdown Blog
+          </h1>
+          <ul>
+            <Contents />
+          </ul>
+        </main>
+      </div>
+    </SWRConfig>
   )
 }
 
@@ -42,7 +56,9 @@ export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
   return {
     props: {
-      allPostsData
+      fallback: {
+        '/': allPostsData
+      }
     }
-  };
+  }
 }
